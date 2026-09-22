@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neon District</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="auth-view" id="authView" aria-label="Spillerprofil">
+    <div class="auth-card">
+      <span class="section-kicker">NEON DISTRICT // SPILLERPROFIL</span>
+      <h2 id="authTitle">Log ind</h2>
+      <p id="authMessage">Gem din rute i skyen og fortsæt fra enhver enhed.</p>
+      <form id="authForm">
+        <label>E-mail<input id="authEmail" type="email" autocomplete="email" required></label>
+        <label>Adgangskode<input id="authPassword" type="password" autocomplete="current-password" minlength="6" required></label>
+        <button type="submit" id="authSubmit">LOG IND</button>
+      </form>
+      <button class="auth-reset" id="authReset" type="button">Glemt adgangskode?</button>
+      <button class="auth-switch" id="authSwitch" type="button">Ny spiller? Opret profil</button>
+      <button class="auth-demo" id="authDemo" type="button">Fortsæt uden login</button>
+    </div>
+  </section>
+  <section class="auth-view" id="passwordView" hidden aria-label="Ny adgangskode">
+    <div class="auth-card">
+      <span class="section-kicker">NEON DISTRICT // SIKKERHED</span>
+      <h2>Ny adgangskode</h2>
+      <p id="passwordMessage">Vælg en ny adgangskode til din spillerprofil.</p>
+      <form id="passwordForm">
+        <label>Ny adgangskode<input id="newPassword" type="password" minlength="6" required></label>
+        <button type="submit" id="passwordSubmit">GEM NY ADGANGSKODE</button>
+      </form>
+    </div>
+  </section>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <span class="brand-mark">ND</span>
+        <div>
+          <p class="eyebrow">NATTERUTE // SIMULATION</p>
+          <h1>NEON <span>DISTRICT</span></h1>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="map-button" id="mapBtn">MAP <span>⌗</span></button>
+        <div class="status-pill"><span class="pulse"></span><span id="statusText">MARKED OPEN</span></div>
+        <button class="icon-button" id="newGameBtn" title="Start nyt spil" aria-label="Start nyt spil">↻</button>
+      </div>
+    </header>
+
+    <section class="hud-grid" aria-label="Spilstatus">
+      <div class="stat-card cash-card"><span class="stat-label">KONTANTER</span><strong id="cash">2.500 kr</strong><span class="stat-meta">likvid kapital</span></div>
+      <div class="stat-card"><span class="stat-label">DAG</span><strong id="day">01 / 12</strong><span class="stat-meta" id="dayMeta">tirsdag, 22:40</span></div>
+      <div class="stat-card"><span class="stat-label">OMDOEMME</span><strong id="rep">12</strong><span class="stat-meta">lokalt netvaerk</span></div>
+      <div class="stat-card"><span class="stat-label">VARER</span><strong><span id="inventoryCount">0</span> <small>/ 24</small></strong><div class="inventory-meter"><i id="inventoryBar"></i></div></div>
+    </section>
+
+    <nav class="game-tabs" aria-label="Spiltilstande">
+      <button class="game-tab active" data-tab="sell">01 <span>SÆLG</span><b id="sellBadge">0</b></button>
+      <button class="game-tab" data-tab="shop">02 <span>SHOP</span><b class="shop-mark">✦</b></button>
+      <button class="game-tab" data-tab="profile">03 <span>PROFIL</span><b class="profile-mark">●</b></button>
+      <button class="game-tab" data-tab="bank">04 <span>BANK</span><b class="bank-mark">$</b></button>
+      <button class="game-tab" data-tab="post">05 <span>POST</span><b class="post-mark">✉</b></button>
+    </nav>
+
+    <section class="game-layout explore-view">
+      <div class="main-column">
+        <div class="section-heading">
+          <div><span class="section-kicker">01 // UD I BYEN</span><h2>Byen sover aldrig.</h2></div>
+          <span class="turn-label" id="locationLabel">POSITION: HAVNEFRONTEN</span>
+        </div>
+        <div class="street-panel">
+          <div class="section-heading compact">
+            <div><span class="section-kicker">02 // UD I BYEN</span><h2>Find en kunde.</h2></div>
+            <span class="market-time">WASD / PILTASTER / TOUCH</span>
+          </div>
+          <div class="street-stage world-3d third-person" id="streetStage" tabindex="0" aria-label="Third-person 3D-gade hvor du kan gå frit rundt">
+            <div class="street-sky"></div><div class="street-road"></div><div class="street-lane lane-one"></div><div class="street-lane lane-two"></div>
+            <div class="street-building building-left"><span></span><span></span><span></span><span></span></div>
+            <div class="street-building building-right"><span></span><span></span><span></span></div>
+            <div id="customerLayer"></div>
+            <div class="police-npc" id="policeNpc" hidden><span class="police-lights"></span><span class="police-head"></span><b>POLITI</b></div>
+            <div class="player avatar" id="player"><span class="avatar-hat"></span><span class="avatar-head"></span><span class="avatar-body"></span><span class="avatar-arm avatar-arm-left"></span><span class="avatar-arm avatar-arm-right"></span><span class="avatar-leg avatar-leg-left"></span><span class="avatar-leg avatar-leg-right"></span><span class="avatar-emote"></span></div>
+              <div class="player avatar street-fit" id="player"><span class="avatar-hat"></span><span class="avatar-head"></span><span class="avatar-body"></span><span class="avatar-arm avatar-arm-left"></span><span class="avatar-arm avatar-arm-right"></span><span class="avatar-leg avatar-leg-left"></span><span class="avatar-leg avatar-leg-right"></span><span class="avatar-emote"></span></div>
+            <div class="street-sign">NATTERUTE<br><b id="streetLocation">HAVNEFRONTEN</b></div>
+            <div class="street-prompt" id="streetPrompt">Gå hen til en kunde</div>
+          </div>
+          <div class="street-controls"><span>BEVÆG DIG MED <b>W A S D</b> ELLER PILTASTER</span><div class="street-actions"><button id="returnMap">TILBAGE TIL KORT</button><button id="interactBtn" disabled>INTERAGÉR <b>E</b></button></div></div>
+          <div class="move-pad" aria-label="Bevægelseskontroller"><button data-move="arrowup">↑</button><div><button data-move="arrowleft">←</button><button data-move="arrowdown">↓</button><button data-move="arrowright">→</button></div></div>
+          <div class="sale-overlay" id="saleOverlay" hidden><button class="sale-close" id="saleClose" aria-label="Luk salg">×</button><span class="section-kicker">Salgstelefon // ONLINE</span><h3 id="quickSaleTitle">Klar til handel</h3><p id="quickSaleText">Vælg en vare, som kunden vil købe.</p><div id="quickSaleGoods" class="quick-sale-goods"></div></div>
+        </div>
+
+        <div class="market-panel">
+          <div class="section-heading compact">
+            <div><span class="section-kicker">03 // LOKALT MARKED</span><h2 id="marketTitle">Havnefronten</h2></div>
+            <span class="market-time">OPDATERES VED DAGSSKIFT</span>
+          </div>
+          <div class="goods-list" id="goodsList"></div>
+        </div>
+      </div>
+
+      <aside class="side-column">
+        <div class="briefing-panel">
+          <div class="panel-head"><span class="section-kicker">03 // NATTERAPPORT</span><span class="live-dot">LIVE</span></div>
+          <div class="report-art" aria-hidden="true"><span class="sun"></span><span class="gridline g1"></span><span class="gridline g2"></span><span class="tower"></span><span class="window w1"></span><span class="window w2"></span><span class="window w3"></span></div>
+          <p class="report-copy" id="eventText">Markedet er roligt. Brug din fordel, mens den varer.</p>
+          <div class="night-goal"><span class="section-kicker">NATTERMÅL</span><strong id="goalText">Lav 3 handler</strong><small id="goalProgress">0 / 3 handler · bonus 500 kr</small><div class="goal-track"><i id="goalBar"></i></div></div>
+          <div class="task-list"><span class="section-kicker">AKTIVE TASKS</span><div id="taskList"></div></div>
+          <div class="risk-row"><span>OPMAERKSOMHED</span><strong id="riskValue">18%</strong></div>
+          <div class="risk-track"><i id="riskBar"></i></div>
+        </div>
+        <div class="log-panel">
+          <div class="panel-head"><span class="section-kicker">AKTIVITETSLOG</span><span id="logCount">03</span></div>
+          <div class="activity-log" id="activityLog"></div>
+        </div>
+        <button class="next-day" id="nextDayBtn"><span>Afslut dag</span><b>→</b></button>
+      </aside>
+    </section>
+    <section class="sell-view" id="sellView" hidden>
+      <div class="sell-location-block"><div class="section-heading compact"><div><span class="section-kicker">01 // VÆLG SALGSOMRÅDE</span><h2>Hvor skal handlen ske?</h2></div><span class="turn-label" id="sellLocationPosition">POSITION: HAVNEFRONTEN</span></div><div class="district-grid" id="districtGrid"></div></div>
+      <div class="sell-header"><div><span class="section-kicker">02 // SALGSTELEFON</span><h2>Lav handlen.</h2></div><span class="turn-label" id="sellLocation">INGEN KUNDE VALGT</span></div>
+      <div class="sell-layout">
+        <div class="contact-card"><div class="contact-avatar" id="contactAvatar">?</div><span class="section-kicker">AKTIV KONTAKT</span><h3 id="contactName">Vælg en kunde</h3><p id="contactRole">Vælg en kunde fra området for at åbne en direkte handel.</p><div class="contact-signal"><i></i><span id="contactSignal">OFFLINE</span></div><div class="customer-stats"><span>STOLER PÅ DIG <b id="contactTrust">--</b></span><span>TÅLMODIGHED <b id="contactPatience">--</b></span></div><div class="customer-list" id="customerList"></div></div>
+        <div class="sell-goods"><div class="panel-head"><span class="section-kicker">DIT LAGER // VÆLG VARE</span><span class="market-time">DISKRET HANDEL</span></div><div id="sellGoodsList" class="sell-goods-list"></div></div>
+      </div>
+    </section>
+    <section class="shop-view" id="shopView" hidden>
+      <div class="shop-header"><div><span class="section-kicker">03 // TEXTIL & IDENTITET</span><h2>Byg din karakter.</h2></div><span class="turn-label">PERSONLIG STIL // UDEN GRÆNSER</span></div>
+      <div class="shop-layout"><div class="wardrobe-card"><div class="wardrobe-stage"><div class="wardrobe-avatar avatar" id="shopAvatar"><span class="avatar-hat"></span><span class="avatar-head"></span><span class="avatar-body"></span><span class="avatar-arm avatar-arm-left"></span><span class="avatar-arm avatar-arm-right"></span><span class="avatar-leg avatar-leg-left"></span><span class="avatar-leg avatar-leg-right"></span><span class="avatar-emote"></span></div></div><span class="section-kicker">UDSTYR</span><h3 id="equippedName">Standard look</h3><p id="equippedText">Din stil vises for alle kunder i byen.</p></div><div class="shop-catalog"><div class="business-upgrades"><div class="panel-head"><span class="section-kicker">FORRETNING // OPGRADERINGER</span><span class="market-time">INVESTÉR I DIN RUTE</span></div><div id="businessUpgrades" class="upgrade-list"></div></div><div class="shop-filters" id="shopFilters"></div><div class="shop-items" id="shopItems"></div></div></div>
+    </section>
+    <section class="profile-view" id="profileView" hidden>
+      <div class="profile-header"><div><span class="section-kicker">03 // SPILLERPROFIL</span><h2>Din identitet.</h2></div><span class="turn-label">GEMMES AUTOMATISK</span></div>
+      <div class="profile-layout">
+        <div class="profile-card account-card"><div class="profile-avatar" id="profileAvatar">?</div><span class="section-kicker">AKTIV KONTO</span><h3 id="profileEmail">Gæstespiller</h3><p id="profileStatus">Din rute gemmes kun lokalt.</p><button class="profile-reset" id="profileReset" hidden>NULSTIL ADGANGSKODE</button><button class="profile-logout" id="profileLogout" hidden>LOG UD</button></div>
+        <div class="profile-card"><div class="panel-head"><span class="section-kicker">OUTFIT & STATUS</span><button class="profile-shop-link" id="profileShopLink">ÅBN SHOP</button></div><div class="profile-outfit"><div class="profile-outfit-avatar avatar" id="profileOutfitAvatar"><span class="avatar-hat"></span><span class="avatar-head"></span><span class="avatar-body"></span><span class="avatar-arm avatar-arm-left"></span><span class="avatar-arm avatar-arm-right"></span><span class="avatar-leg avatar-leg-left"></span><span class="avatar-leg avatar-leg-right"></span><span class="avatar-emote"></span></div><div><b id="profileOutfitName">Standard look</b><small id="profileOutfitText">Ingen customizations equipet endnu.</small></div></div><div class="profile-items" id="profileItems"></div><div class="profile-upgrades" id="profileUpgrades"></div></div>
+      </div>
+    </section>
+    <section class="bank-view" id="bankView" hidden>
+      <div class="profile-header"><div><span class="section-kicker">04 // NEON BANK</span><h2>Lån til næste træk.</h2></div><span class="turn-label">RENTE VED DAGSSKIFT</span></div>
+      <div class="bank-layout">
+        <div class="bank-card bank-balance"><span class="section-kicker">DIN GÆLD</span><strong id="loanBalance">0 kr</strong><p id="loanInterest">Ingen aktiv rente.</p><div class="bank-stat"><span>RENTE PR. DAG</span><b id="loanRate">8%</b></div><div class="bank-stat"><span>NÆSTE RENTE</span><b id="nextInterest">0 kr</b></div></div>
+        <div class="bank-card"><span class="section-kicker">KVIKLÅN</span><h3>Hvor meget skal du bruge?</h3><p class="bank-copy">Større lån giver større rente. Renterne lægges på ved hvert dagsskift.</p><div class="bank-form"><label>Beløb i kr<input id="loanAmount" type="number" min="100" step="100" value="1000"></label><button id="takeLoan">TAG LÅN</button></div><button class="repay-loan" id="repayLoan">BETAL ALT TILBAGE</button></div>
+      </div>
+    </section>
+    <section class="post-view" id="postView" hidden>
+      <div class="profile-header"><div><span class="section-kicker">05 // DIGITAL POST</span><h2>Din post.</h2></div><span class="turn-label">OFFICIEL BESKED</span></div>
+      <div class="post-shell"><div class="post-sidebar"><span class="section-kicker">POSTKASSE</span><b>INDGÅENDE</b><span class="post-count" id="postCount">0</span></div><div class="post-list" id="postList"></div></div>
+    </section>
+    <footer><span>NEON DISTRICT // fiktiv strategi-simulation</span><span>HOLD ØJE MED PRISERNE <b>·</b> HOLD DIG I BEVÆGELSE</span></footer>
+  </main>
+  <section class="map-overlay" id="mapOverlay" hidden aria-label="Bykort">
+    <div class="map-shell"><div class="map-topline"><div><span class="section-kicker">NEON DISTRICT // BYKORT</span><h2>Vælg din næste destination.</h2></div><button class="map-close" id="mapClose" aria-label="Luk kort">×</button></div><div class="map-canvas"><div class="map-route route-one"></div><div class="map-route route-two"></div><div class="map-route route-three"></div><div class="map-node node-one"></div><div class="map-node node-two"></div><div class="map-node node-three"></div><div class="map-buildings blocks-one"><i></i><i></i><i></i><i></i></div><div class="map-buildings blocks-two"><i></i><i></i><i></i></div><div class="map-buildings blocks-three"><i></i><i></i><i></i><i></i><i></i></div><div class="map-grid" id="mapGrid"></div></div><div class="map-footer"><span>AKTIV POSITION: <b id="mapPosition">HAVNEFRONTEN</b></span><span>VÆLG ET OMRÅDE FOR AT FLYTTE</span></div></div>
+  </section>
+  <div class="toast" id="toast" role="status"></div>
+  <section class="wasted-overlay" id="wastedOverlay" hidden role="alertdialog" aria-label="Du blev anholdt">
+    <div class="wasted-card"><span class="wasted-label">POLITI // ARREST</span><h2>WASTED</h2><p>Du blev taget af popo</p><strong>-5000 kr</strong><button id="wastedClose">ACCEPTER</button></div>
+  </section>
+  <section class="escape-overlay" id="escapeOverlay" hidden role="dialog" aria-label="Slip fri fra politiet">
+    <div class="escape-card"><span class="wasted-label">SIDSTE CHANCE // POLITI</span><h2>SLIP FRI</h2><p>Tryk E når markøren er i det grønne felt.</p><div class="escape-track"><i id="escapeZone"></i><b id="escapeMarker"></b></div><small id="escapeTimer">1.5 sekunder</small></div>
+  </section>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="game.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
